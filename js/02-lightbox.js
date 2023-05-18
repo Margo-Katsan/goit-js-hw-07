@@ -15,18 +15,11 @@ function createGalleryMarkup(galleryItems) {
   })
     .join('');
 };
-function onGalleryItemClick(e) {
-  if (!e.target.classList.contains('gallery__image')) {
-    return;
-  };  
-  const lightbox = new SimpleLightbox('.gallery a', {
-    captions: true,
-    captionSelector: 'img',
+
+galleryEl.insertAdjacentHTML('beforeend', imagesMarkup);
+
+const lightbox = new SimpleLightbox('.gallery a', {
     captionsData: 'alt',
     captionPosition: 'bottom',
     captionDelay: 250,
-  });
-};
-
-galleryEl.insertAdjacentHTML('beforeend', imagesMarkup);
-galleryEl.addEventListener('click', onGalleryItemClick);
+});

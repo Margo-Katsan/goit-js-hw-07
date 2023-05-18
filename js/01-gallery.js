@@ -15,19 +15,26 @@ function createGalleryMarkup(galleryItems) {
   })
     .join('');
 };
+
 function onGalleryItemClick(e) {
   if (!e.target.classList.contains('gallery__image')) {
     return;
-  };  
-  const originalPicture = basicLightbox.create(`<img src="${e.target.dataset.source}">`);
-  originalPicture.show();
-  document.addEventListener("keydown", event => {
+  };
+  function onEscape(event) {
     if (event.code == "Escape") {
       originalPicture.close();
     }
+  };  
+  const originalPicture = basicLightbox.create(`<img src="${e.target.dataset.source}">`, {
+    onShow: () => {
+      document.addEventListener("keydown", onEscape);
+    },
+    onClose: () => {
+      document.removeEventListener("keydown", onEscape);
+    }
   });
+  originalPicture.show();
 }
 
 galleryEl.insertAdjacentHTML('beforeend', imagesMarkup);
-galleryEl.addEventListener('click', onGalleryItemClick)
-
+galleryEl.addEventListener('click', onGalleryItemClick);
